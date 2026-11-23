@@ -6,6 +6,6 @@
 4. Extract sourced financial facts and implement compatible comparisons and Decimal calculations.
 5. Add persistent scoped chats, bounded planning, evidence verification, and Groq generation.
 6. Connect research views, PDF.js citations, and Recharts comparisons to the API.
-7. Run integration checks, document limits, and package local startup and Docker.
+7. Run integration checks, document limits, and verify direct local startup.
 
 Academic benchmarking is deferred.

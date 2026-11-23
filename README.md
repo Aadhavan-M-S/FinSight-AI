@@ -4,28 +4,44 @@ FinSight AI is a local financial research workspace for text-based PDF filings. 
 
 ## Run locally
 
-Use Python 3.12, uv, Node 22.12+ (or a newer supported version), and Bash 4.3+.
+Install Python 3.12, uv, and Node.js 22.12 or later. From the project folder, copy `.env.example` to `.env` and set `GROQ_API_KEY` to your [Groq API key](https://console.groq.com/keys). Keep the key in the local `.env` file.
+
+### macOS or Linux with Bash 4.3+
 
 ```bash
 bash scripts/install.sh
 bash scripts/dev.sh
 ```
 
-Open the Vite application on loopback port 5173. FastAPI listens on loopback port 8000, with interactive API documentation at `/docs`. SQLite, PDF files, FAISS indexes, and model downloads are stored in ignored `data/` directories. Run a single backend process for this local deployment.
+### Windows PowerShell
+
+In one terminal, from the project folder, install and start the backend.
+
+```powershell
+cd backend
+uv sync --locked --group neural --python 3.12
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+In a second terminal, from the project folder, install and start the frontend.
+
+```powershell
+cd frontend
+npm.cmd ci
+npm.cmd run dev -- --host 127.0.0.1
+```
+
+On macOS with the system Bash, you can also use two terminals. From `backend/`, run `uv sync --locked --group neural --python 3.12`, then `.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000`. From `frontend/`, run `npm ci`, then `npm run dev -- --host 127.0.0.1`.
+
+Once both services are running, open [localhost:5173](http://localhost:5173). Upload a text-based annual report in **Document library**, wait for **Ready**, and open **Document chat**. A question about the report's disclosed risks exercises Groq generation.
+
+FastAPI listens on loopback port 8000, with interactive API documentation at `/docs`. SQLite, PDF files, and FAISS indexes are stored in the ignored `data/` directory by default. Run a single backend process for this local deployment.
 
 Groq is the default hosted generation provider. Set `GROQ_API_KEY` through the environment or a local, ignored `.env` file based on `.env.example`. The backend selects from supported candidates returned by Groq or checks the configured `GROQ_MODEL`. Selected excerpts may be sent to Groq for qualitative generation. Report parsing, evidence retrieval, and supported financial arithmetic run locally.
 
-Dense retrieval downloads the configured BGE embedding and MiniLM reranker models from Hugging Face. Both models run on CPU. The first ingestion downloads the embedding model and the first qualitative query loads the reranker. Reprocess previous documents after switching from lexical mode or changing the embedding model.
+Dense retrieval downloads the configured BGE embedding and MiniLM reranker models from Hugging Face. Both models run on CPU. The first ingestion downloads the embedding model and the first qualitative query loads the reranker. To start with keyword search and keep Groq generation, set `DENSE_RETRIEVAL=false` in `.env`. Reprocess previous documents after switching from lexical mode to dense retrieval or changing the embedding model.
 
 For an explicit offline verification mode, set `DENSE_RETRIEVAL=false LLM_PROVIDER=mock` when launching. This uses BM25 plus deterministic financial calculations and visibly labeled source excerpts in the chat.
-
-## Docker
-
-```bash
-docker compose up --build
-```
-
-The UI and API share port 5173 and data persists in the Compose volume. In Codex Cloud, include `-f compose.yaml -f docker/compose.cloud.yaml` to supply the cloud CA via build and runtime mounts.
 
 ## Verify
 
