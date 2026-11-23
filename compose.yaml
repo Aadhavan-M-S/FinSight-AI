@@ -1,0 +1,24 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      FINSIGHT_DATA_DIR: /app/data
+      DENSE_RETRIEVAL: ${DENSE_RETRIEVAL:-true}
+      LLM_PROVIDER: ${LLM_PROVIDER:-groq}
+    volumes:
+      - finsight-data:/app/data
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "127.0.0.1:5173:80"
+volumes:
+  finsight-data:
