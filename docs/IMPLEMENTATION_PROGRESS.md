@@ -1,5 +1,16 @@
 # Implementation progress
 
+## Phase 8 — Benchmark Library
+
+- Added on-demand split installation and import, seven catalog entries, source and license details, paginated records, and source PDF navigation for FinanceBench. Benchmarks and evaluation runs have separate local storage.
+- Added persistent background evaluations with cancellation, publisher split and protocol labels, scope-isolated retrieval, bounded numerical programs, Groq request limits, measured metrics, and JSON/CSV result exports.
+- Installed the official FinanceBench public release (150 questions), FinQA development (883) and private test (919), TAT-QA development (1,668) and gold test (1,663), and ConvFinQA development (1,490) and test (1,521 turns). Ran five real FinQA retrieval questions and three FinanceBench PDF retrieval questions and checked their recorded outcomes.
+- Nine backend tests passed. They cover publisher download and archive safety, job persistence and cancellation, dataset removal, answer isolation, arithmetic, exports, and the existing PDF/chat workflow. The locked install and frontend build passed.
+- Headless Chromium verified benchmark search and pagination, FinanceBench PDF links, FinQA run creation and export, and ordinary Apple 10-K upload, chat, and citation navigation. The Apple/Microsoft smoke also passed for comparisons, follow-ups, and scoped retrieval. Vite now preserves the browser host for same-origin writes. A cross-origin write still returned HTTP 403.
+- Cloud egress prevented live checks against Hugging Face and the MultiHiertt publisher's Drive folder. FinDER and DocFinQA installation and schema compatibility with their live releases remain unverified. MultiHiertt uses import of the authors' split files. Live Groq evaluation was also unavailable in this session.
+
+[Dataset sources and evaluation protocols](BENCHMARKS.md)
+
 ## Phase 7 validation
 
 The project started from an empty repository and is published on GitHub's main branch. The full supplied specification is preserved in PROJECT_SPEC.md. The application has a FastAPI and SQLite backend, a React and Tailwind UI, locked dependencies, and direct local startup. The owner chose to remove container packaging from the project.

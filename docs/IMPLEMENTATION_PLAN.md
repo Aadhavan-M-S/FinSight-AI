@@ -7,5 +7,6 @@
 5. Add persistent scoped chats, bounded planning, evidence verification, and Groq generation.
 6. Connect research views, PDF.js citations, and Recharts comparisons to the API.
 7. Run integration checks, document limits, and verify direct local startup.
+8. Integrate on-demand publisher dataset splits, a separate library and run history, and task-specific evaluation. [Benchmark protocols](BENCHMARKS.md)
 
-Academic benchmarking is deferred.
+Research publication is deferred.

@@ -43,6 +43,12 @@ Dense retrieval downloads the configured BGE embedding and MiniLM reranker model
 
 For an explicit offline verification mode, set `DENSE_RETRIEVAL=false LLM_PROVIDER=mock` when launching. This uses BM25 plus deterministic financial calculations and visibly labeled source excerpts in the chat.
 
+## Benchmark Library
+
+After pulling Phase 8, rerun the locked backend installation and restart both services. Open **Benchmark Library**, choose a dataset, and install one publisher split or import its original file. Download size limits, source terms, and split availability appear with each dataset. Benchmark records and saved evaluations are stored under `data/benchmarks/`.
+
+Select **Run evaluation** within an installed split. BM25 retrieval runs work locally without an API key. Supported numerical and QA tasks use your configured Groq key, with a small request budget. Open **Evaluation runs** to inspect evidence, predictions, references, and export JSON or CSV. [Dataset details and evaluation protocols](docs/BENCHMARKS.md)
+
 ## Verify
 
 ```bash

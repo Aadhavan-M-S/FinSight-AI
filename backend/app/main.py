@@ -8,6 +8,10 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import text
 
 from . import models  # noqa: F401
+from .benchmarks.catalog import CATALOG, MIB
+from .benchmarks.evaluation import router as evaluations_router
+from .benchmarks.library import router as benchmarks_router
+from .benchmarks.store import store as benchmark_store
 from .chat import router as chat_router
 from .config import settings
 from .database import Base, engine
@@ -41,6 +45,7 @@ logger.setLevel(logging.INFO)
 @asynccontextmanager
 async def lifespan(_app):
     Base.metadata.create_all(engine)
+    benchmark_store.initialize()
     resume_jobs()
     yield
 
@@ -62,6 +67,11 @@ async def protect_local_workspace(request, call_next):
             size = request.headers.get("content-length")
             if size and size.isdecimal() and int(size) > (10 * settings.max_upload_mb + 1) * 1024 * 1024:
                 return JSONResponse({"detail": "Upload exceeds the total size limit."}, status_code=413)
+        if request.url.path.startswith("/api/v1/benchmarks/") and request.url.path.endswith("/import"):
+            dataset = CATALOG.get(request.url.path.split("/")[-2])
+            size = request.headers.get("content-length")
+            if dataset and size and size.isdecimal() and int(size) > dataset.max_download + MIB:
+                return JSONResponse({"detail": "The import exceeds the size limit."}, status_code=413)
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     return response
@@ -88,4 +98,6 @@ api.include_router(documents_router)
 api.include_router(financial_router)
 api.include_router(retrieval_router)
 api.include_router(chat_router)
+api.include_router(benchmarks_router)
+api.include_router(evaluations_router)
 app.include_router(api)

@@ -1,3 +1,3 @@
 # Future evaluation
 
-Candidate evaluation work includes finance question-answering datasets, isolated comparisons of lexical and neural retrieval, table structure preservation, arithmetic traceability, citation quality, and abstention. Existing retrieval, calculation, and claim verification APIs provide the integration points. Benchmark adapters, experimental runs, and research publication are deferred.
+Phase 8 provides the [Benchmark Library](BENCHMARKS.md) and small reproducible evaluation runs. Future research can use its exports for comparisons of lexical and neural retrieval, table structure preservation, arithmetic traceability, citation quality, and abstention. Controlled experiments, formal leaderboards, and research publication are outside the current release.

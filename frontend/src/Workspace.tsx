@@ -1,13 +1,14 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
 import {
   ArrowRight, ArrowUp, BookOpen, ChartNoAxesCombined, CheckCircle2, ChevronRight, CircleHelp,
-  FileSearch, Files, FileText, History, LayoutDashboard, Menu, Plus, RefreshCw, Search, Trash2, UploadCloud,
+  FileSearch, Files, FileText, FlaskConical, History, LayoutDashboard, Menu, Plus, RefreshCw, Search, Trash2, UploadCloud,
 } from 'lucide-react'
 import { api, amount, date, json, label, upload, type Citation, type Message, type Mode, type Report,
   type Session, type Status } from './api'
 import type { ViewerSource } from './PdfViewer'
 
 const Comparison = lazy(() => import('./Comparison'))
+const Benchmarks = lazy(() => import('./BenchmarkLibrary'))
 const PdfViewer = lazy(() => import('./PdfViewer'))
 
 const navigation = [
@@ -17,6 +18,7 @@ const navigation = [
   { id: 'research', title: 'Multi-document research', icon: FileSearch, description: 'Analyze a selected group of reports together.' },
   { id: 'compare', title: 'Company comparison', icon: ChartNoAxesCombined, description: 'Compare source-linked figures across companies and fiscal years.' },
   { id: 'history', title: 'Research history', icon: History, description: 'Find and reopen your saved conversations.' },
+  { id: 'benchmarks', title: 'Benchmark Library', icon: FlaskConical, description: 'Explore publisher datasets and measure performance on controlled financial tasks.' },
 ] as const
 type Page = typeof navigation[number]['id']
 const reportName = (report: Report) => report.company_name || report.filename
@@ -142,6 +144,7 @@ export default function Workspace() {
               cite={cite} refresh={refresh} status={status} goLibrary={() => go('library')}/>}
             {page === 'compare' && <Suspense fallback={<p role="status" className="notice">Loading comparison…</p>}><Comparison reports={reports} cite={cite}/></Suspense>}
             {page === 'history' && <HistoryList sessions={sessions} reports={reports} open={open} refresh={refresh}/>}
+            {page === 'benchmarks' && <Suspense fallback={<p role="status" className="notice">Loading benchmarks…</p>}><Benchmarks groqConfigured={!!status?.groq_key_configured}/></Suspense>}
           </div>
           {source && <Suspense fallback={<p role="status" className="notice">Loading viewer…</p>}><PdfViewer source={source} onClose={() => setSource(undefined)}/></Suspense>}
         </div>}

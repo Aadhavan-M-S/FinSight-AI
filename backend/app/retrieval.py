@@ -105,6 +105,23 @@ def tokens(text):
     return re.findall(r"\w+(?:[.'’-]\w+)*", text.casefold())
 
 
+def lexical_ranking(query, passages, limit):
+    query_tokens = tokens(query)
+    if not passages or not query_tokens:
+        return []
+    identifiers = list(passages)
+    corpus = [tokens(text) for text in passages.values()]
+    if not any(corpus):
+        return []
+    scores = BM25Okapi(corpus).get_scores(query_tokens)
+    words = set(query_tokens)
+    return [
+        identifiers[i]
+        for i in sorted(range(len(identifiers)), key=lambda i: (-scores[i], identifiers[i]))
+        if words.intersection(corpus[i])
+    ][:limit]
+
+
 def serialize_evidence(item, document):
     return {
         "id": item.id,
@@ -225,20 +242,12 @@ def search(db, request: SearchRequest):
             and (request.basis is None or request.basis == item.structure.get("basis"))
         )
     }
-    query_tokens = tokens(request.query)
-    if not candidates or not query_tokens:
+    if not candidates or not tokens(request.query):
         return []
-    ids = list(candidates)
-    corpus = [tokens(item.normalized) for item in candidates.values()]
-    model = BM25Okapi(corpus)
-    scores = model.get_scores(query_tokens)
-    words = set(query_tokens)
     limit = max(request.top_k, settings.candidate_count)
-    lexical = [
-        ids[i]
-        for i in sorted(range(len(ids)), key=lambda i: (-scores[i], ids[i]))
-        if words.intersection(corpus[i])
-    ][:limit]
+    lexical = lexical_ranking(
+        request.query, {identifier: item.normalized for identifier, item in candidates.items()}, limit
+    )
     dense = []
     if settings.dense_retrieval:
         try:

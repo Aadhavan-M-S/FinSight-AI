@@ -1,0 +1,32 @@
+.benchmark{display:grid;gap:15px;min-width:0}
+.benchmark-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.benchmark-tabs [aria-pressed=true]{background:#dcead8;border-color:#b7ceb5;color:#214d3b}
+.benchmark-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr))}
+.benchmark-card{display:flex;flex-direction:column;gap:8px}
+.benchmark-card p,.benchmark-detail p{color:#526157;font-size:.88rem}
+.benchmark-card-actions,.benchmark-pages{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.benchmark-card-actions{margin-top:auto;padding-top:8px}
+.benchmark-meta{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:5px 11px;font-size:.83rem;margin:3px 0 8px}
+.benchmark-meta dt{color:#526157;font-weight:650}
+.benchmark-meta dd{margin:0;overflow-wrap:anywhere}
+.benchmark-metric{display:contents}
+.benchmark-back{justify-self:start}
+.benchmark-detail{display:grid;gap:12px}
+.benchmark-form{display:grid;gap:9px;max-width:650px}
+.benchmark-form label select,.benchmark-filter select{max-width:370px}
+.benchmark-filter{max-width:230px}
+.benchmark input[type=file]{display:block;max-width:100%;font-size:.85rem}
+.benchmark progress{display:block;width:100%;margin:7px 0}
+.benchmark-pages{border-top:1px solid #e4eae0;padding-top:8px;font-size:.84rem}
+.benchmark-record{border:1px solid #dce8db;border-radius:9px;background:#f7faf6;padding:12px;display:grid;gap:8px;min-width:0}
+.benchmark-record details,.benchmark-record h4,.benchmark-record p{margin-top:6px}
+.benchmark summary{font-size:.86rem;font-weight:670;cursor:pointer}
+.benchmark h4{font-weight:650;font-size:.9rem}
+.benchmark pre{font-family:ui-monospace,monospace;font-size:.8rem;line-height:1.45;background:#fff;border:1px solid #e4ebe2;border-radius:6px;padding:8px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:250px;overflow:auto}
+.benchmark-excerpt{background:#fff;border:1px solid #e5ebe1;border-radius:7px;padding:8px;margin-top:7px;font-size:.84rem}
+.benchmark-excerpt small,.benchmark-excerpt a{display:block}
+.benchmark-excerpt p{white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto}
+.benchmark-context{max-height:420px;overflow:auto}
+.benchmark-counts{display:flex;flex-wrap:wrap;gap:8px}
+.benchmark-counts span{padding:7px 9px;border-radius:7px;background:#eef4eb;font-size:.83rem}
+.benchmark caption{text-align:left;padding:8px 0;color:#53685b;font-size:.84rem}

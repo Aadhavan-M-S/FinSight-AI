@@ -13,10 +13,13 @@ dependencies = [
   "pandas>=2.2,<4",
   "rank-bm25>=0.2.2,<1",
   "groq>=0.28,<2",
+  "httpx>=0.28,<1",
+  "ijson>=3.3,<4",
+  "pyarrow>=19,<25",
 ]
 
 [dependency-groups]
-dev = ["pytest>=8,<10", "httpx>=0.28,<1", "ruff>=0.11,<1"]
+dev = ["pytest>=8,<10", "ruff>=0.11,<1"]
 neural = ["torch>=2.6,<3", "sentence-transformers>=4,<6", "faiss-cpu>=1.10,<2"]
 
 [tool.uv.sources]
